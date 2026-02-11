@@ -1,10 +1,18 @@
-# BMP180 Python Library
+# BMP180 Python Library - bmp180
 
 A Python library for BMP180 pressure and temperature sensor.
 
 ## Overview
 
 This library provides a driver for the BMP180 sensor, allowing you to read atmospheric pressure and temperature via I2C. It also includes utility methods to estimate altitude based on sea-level pressure and convert Celsius to Fahrenheit.
+
+## Installation
+
+You can install this library directly from GitHub using `pip`. The dependency (`smbus2`) will be installed automatically.
+
+```bash
+pip install git+https://github.com/7L2VKS/BMP180.git
+```
 
 ## Preparation
 
@@ -23,23 +31,11 @@ Connect BMP180 sensor to your Raspberry Pi (or similar device) using the followi
 | **SCL** | GPIO 3 (SCL, Pin 5) | I2C Clock |
 | **SDA** | GPIO 2 (SDA, Pin 3) | I2C Data |
 
-### 3. Install Dependencies
-This library requires the `smbus2` package for I2C communication. It is usually installed by default on Raspberry Pi OS, but if it is not, install it with the following command.
-
-```bash
-pip install smbus2
-```
-
-### 4. Identify I2C Address
-If you don't have it installed, install `i2c-tools`:
+### 3. Identify I2C Address
+Ensure i2c-tools is installed:
 
 ```bash
 sudo apt install i2c-tools
-```
-
-Run the following command to find the address of your device:
-
-```bash
 i2cdetect -y 1
 ```
 
@@ -48,7 +44,7 @@ The hex value shown in the table (e.g. `77`) is the I2C address.
 ## Sample Code
 
 ```python
-from BMP180 import BMP180, MODE
+from bmp180 import BMP180, MODE
 
 # Using with Context Manager
 with BMP180(0x77, mode=MODE.ULTRAHIGHRES) as bmp:
@@ -93,7 +89,7 @@ Reads atmospheric pressure in hPa.
 * **Returns** (float): Pressure in hPa, rounded to two decimal places.
 
 #### **`get_altitude(sealevel_pressure=SEALEVEL_PRESSURE)`**
-Computes altitude based on the current pressure and sea-level pressure. SEALEVEL_PRESSURE is average sea level pressure in Tokyo. You can modify this value in the program.
+Computes altitude based on the current pressure and sea-level pressure (SEALEVEL_PRESSURE is average sea level pressure in Tokyo).
 * **`sealevel_pressure`** (float): Reference sea-level pressure in hPa.
 * **Returns** (float): Estimated altitude in meters, rounded to one decimal place.
             
